@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  node-app:
+    container_name: node-app
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      PG_DB: mydb
+      PG_USER: semah
+      PG_PW: admin
+      PG_HOST: pg_host_db
+    depends_on:
+      - pg_host_db
+    restart: always
+
+  pg_host_db:
+    container_name: pg_host_db
+    image: postgres:12
+    ports:
+      - "5428:5432"
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: semah
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+volumes:
+  pg_data: {}
